@@ -1,3 +1,4 @@
+import StreamProvider from "@/providers/streamClientProvider";
 import React, { ReactNode } from "react";
 interface rootlayout {
   children: ReactNode;
@@ -5,7 +6,7 @@ interface rootlayout {
 const layout = ({ children }: rootlayout) => {
   return (
     <main>
-      {children}
+      <StreamProvider>{children}</StreamProvider>
       Footer
     </main>
   );
