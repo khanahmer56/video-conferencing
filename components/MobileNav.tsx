@@ -74,6 +74,7 @@ const MobileNav = () => {
                     </SheetClose>
                   );
                 })}
+                <p className="text-[12px] mt-12">Copyright 2024 ahmer khan</p>
               </section>
             </SheetClose>
           </div>

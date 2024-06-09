@@ -40,6 +40,9 @@ const Sidebar = () => {
           );
         })}
       </div>{" "}
+      <div>
+        <p>Copyright 2024 ahmer khan</p>
+      </div>
     </section>
   );
 };
