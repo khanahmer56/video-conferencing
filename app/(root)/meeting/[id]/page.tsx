@@ -1,26 +1,36 @@
 "use client";
-import Loader from "@/components/Loader";
-import MeetingRoom from "@/components/MeetingRoom";
-import MeetingSetup from "@/components/MeetingSetup";
-import { useGetCallById } from "@/hooks/useGetCallById";
+
+import { useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { StreamCall, StreamTheme } from "@stream-io/video-react-sdk";
-import React, { useState } from "react";
-interface meetingtype {
-  params: { id: string };
-}
+import { useParams } from "next/navigation";
+import { Loader } from "lucide-react";
 
-const page = ({ params }: meetingtype) => {
-  const { user, isLoaded } = useUser();
-  const [isSetupComplete, setIsstupcomplete] = useState(false);
-  const { call, isCallLoading } = useGetCallById(params?.id);
+import { useGetCallById } from "@/hooks/useGetCallById";
+import MeetingSetup from "@/components/MeetingSetup";
+import MeetingRoom from "@/components/MeetingRoom";
+
+const MeetingPage = () => {
+  const { id } = useParams();
+  const { isLoaded, user } = useUser();
+  const { call, isCallLoading } = useGetCallById(id);
+  const [isSetupComplete, setIsSetupComplete] = useState(false);
+
   if (!isLoaded || isCallLoading) return <Loader />;
+
+  if (!call)
+    return (
+      <p className="text-center text-3xl font-bold text-white">
+        Call Not Found
+      </p>
+    );
+
   return (
-    <main>
+    <main className="h-screen w-full">
       <StreamCall call={call}>
         <StreamTheme>
           {!isSetupComplete ? (
-            <MeetingSetup setIsSetupComplete={setIsstupcomplete} />
+            <MeetingSetup setIsSetupComplete={setIsSetupComplete} />
           ) : (
             <MeetingRoom />
           )}
@@ -30,4 +40,4 @@ const page = ({ params }: meetingtype) => {
   );
 };
 
-export default page;
+export default MeetingPage;
